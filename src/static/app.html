@@ -228,7 +228,15 @@
           let data = {};
           try { data = await r.json(); } catch (e) { data = { detail: 'Invalid response' }; }
           if (r.ok && data.contract_id) { status.innerHTML = '<span class="text-emerald-600">Done! Redirecting...</span>'; setTimeout(() => viewDoc(data.contract_id), 600); }
-          else { status.innerHTML = `<span class="text-rose-600">Error: ${data.detail || r.statusText || 'Upload failed'}</span>`; }
+          else {
+            let errMsg = 'Upload failed';
+            if (data.detail) {
+              if (typeof data.detail === 'string') errMsg = data.detail;
+              else if (Array.isArray(data.detail)) errMsg = data.detail.map(e => e.msg || e).join(', ');
+              else errMsg = String(data.detail);
+            } else if (r.statusText) errMsg = r.statusText;
+            status.innerHTML = `<span class="text-rose-600">Error: ${errMsg}</span>`;
+          }
         } catch (err) {
           status.innerHTML = `<span class="text-rose-600">Error: ${err.message || 'Network error'}</span>`;
         } finally { btn.disabled = false; btn.textContent = 'Analyze Document'; }
