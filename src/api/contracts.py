@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
+from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 import uuid
@@ -18,8 +18,8 @@ router = APIRouter(prefix="/api/contracts", tags=["contracts"])
 @router.post("/upload", response_model=ContractModel)
 async def upload_contract(
     file: UploadFile = File(...),
-    business_owner: str = None,
-    department: str = None,
+    business_owner: str = Form(None),
+    department: str = Form(None),
     db: Session = Depends(get_db)
 ):
     """Upload contract for analysis with auto risk assessment"""
