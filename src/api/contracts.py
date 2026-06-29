@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 import uuid
 import os
 
@@ -18,11 +18,12 @@ router = APIRouter(prefix="/api/contracts", tags=["contracts"])
 @router.post("/upload", response_model=ContractModel)
 async def upload_contract(
     file: UploadFile = File(...),
-    business_owner: str = Form(None),
-    department: str = Form(None),
+    business_owner: Optional[str] = Form(None),
+    department: Optional[str] = Form(None),
     db: Session = Depends(get_db)
 ):
     """Upload contract for analysis with auto risk assessment"""
+    print(f"DEBUG: owner={business_owner}, dept={department}")
     try:
         if not is_allowed(file.filename):
             raise HTTPException(status_code=400, detail="Unsupported file type")
