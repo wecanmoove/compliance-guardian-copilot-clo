@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Compliance Guardian Copilot{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { brand: { 600:'#1d4ed8', 700:'#1e40af', 800:'#1e3a8a' } } } } }</script>
+  <style>body{background:#f1f5f9}</style>
+</head>
+<body class="min-h-screen text-slate-800">
+<div class="flex min-h-screen">
+
+  <!-- Sidebar -->
+  <aside class="w-64 shrink-0 bg-slate-900 text-slate-200 flex flex-col">
+    <div class="px-6 py-5 border-b border-slate-700/60">
+      <div class="flex items-center gap-2">
+        <div class="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">CG</div>
+        <div>
+          <div class="font-semibold leading-tight text-white">Compliance</div>
+          <div class="text-xs text-slate-400">Guardian Copilot</div>
+        </div>
+      </div>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+      <a href="/" class="flex items-center gap-3 px-3 py-2 rounded-lg transition {% if active=='dashboard' %}bg-blue-600 text-white{% else %}text-slate-300 hover:bg-slate-800{% endif %}">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        Dashboard
+      </a>
+      <a href="/upload" class="flex items-center gap-3 px-3 py-2 rounded-lg transition {% if active=='upload' %}bg-blue-600 text-white{% else %}text-slate-300 hover:bg-slate-800{% endif %}">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"/></svg>
+        Upload & Analyze
+      </a>
+      <a href="/contracts" class="flex items-center gap-3 px-3 py-2 rounded-lg transition {% if active=='contracts' %}bg-blue-600 text-white{% else %}text-slate-300 hover:bg-slate-800{% endif %}">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3h7l5 5v13H7z"/></svg>
+        Documents
+      </a>
+      <a href="/copilot" class="flex items-center gap-3 px-3 py-2 rounded-lg transition {% if active=='copilot' %}bg-blue-600 text-white{% else %}text-slate-300 hover:bg-slate-800{% endif %}">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h4m-9 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Copilot
+      </a>
+    </nav>
+    <div class="px-4 py-4 border-t border-slate-700/60 text-xs text-slate-400">
+      <span class="inline-flex items-center gap-1 text-emerald-400">● API running</span>
+      <div class="mt-1">AI-powered compliance</div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-8 py-4">
+      <h1 class="text-lg font-semibold text-slate-900">{% block heading %}Compliance Guardian{% endblock %}</h1>
+      <p class="text-sm text-slate-500">{% block subheading %}AI-powered contract & compliance risk intelligence{% endblock %}</p>
+    </header>
+
+    {% if flash_msg %}
+    <div class="mx-8 mt-4 rounded-lg px-4 py-3 text-sm
+      {% if flash_type == 'success' %}bg-emerald-50 text-emerald-800 border border-emerald-200{% else %}bg-rose-50 text-rose-800 border border-rose-200{% endif %}">
+      {{ flash_msg }}
+    </div>
+    {% endif %}
+
+    <div class="px-8 py-6 flex-1">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+</body>
+</html>

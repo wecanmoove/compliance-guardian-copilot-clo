@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compliance Guardian Copilot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-slate-900 text-slate-200 flex flex-col shrink-0">
+      <div class="p-6 border-b border-slate-700">
+        <div class="flex gap-3 items-center">
+          <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">CG</div>
+          <div>
+            <div class="font-semibold text-white">Compliance Guardian</div>
+            <div class="text-xs text-slate-400">Copilot Enterprise</div>
+          </div>
+        </div>
+      </div>
+      <nav class="flex-1 p-4 space-y-1 text-sm">
+        <button data-tab="dashboard" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>Dashboard</button>
+        <button data-tab="upload" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"/></svg>Upload &amp; Analyze</button>
+        <button data-tab="documents" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3h7l5 5v13H7z"/></svg>Documents</button>
+        <button data-tab="findings" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5 19h14a2 2 0 001.84-2.75L13.74 4a2 2 0 00-3.5 0L3.2 16.25A2 2 0 005 19z"/></svg>Findings</button>
+        <button data-tab="analytics" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Analytics</button>
+        <div class="pt-3 mt-3 border-t border-slate-700/60">
+          <div class="px-4 pb-1 text-[10px] uppercase tracking-wider text-slate-500">Resilience</div>
+        </div>
+        <button data-tab="incidents" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Incidents</button>
+        <button data-tab="resilience" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Resilience Scoring</button>
+        <button data-tab="continuity" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>Business Continuity</button>
+      </nav>
+      <div class="p-4 border-t border-slate-700 text-xs">
+        <button data-tab="copilot" class="tab-btn w-full text-left px-4 py-2.5 rounded-lg transition flex items-center gap-3 mb-3 bg-slate-800/60">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h4m-9 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Copilot</button>
+        <div class="text-slate-400"><span class="text-emerald-400">●</span> <span id="apiStatus">API connected</span></div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1 flex flex-col min-w-0">
+      <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
+        <div>
+          <h1 class="text-xl font-semibold text-slate-900" id="pageTitle">Dashboard</h1>
+          <p class="text-sm text-slate-500" id="pageDesc">Compliance overview across all analyzed documents</p>
+        </div>
+        <button onclick="window.location.hash='copilot';renderTab('copilot')" class="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Ask Copilot</button>
+      </header>
+
+      <main class="flex-1 overflow-auto p-8" id="content">
+        <div class="text-slate-500">Loading...</div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const API = '';  // same origin
+    const TABS = {
+      dashboard:  { title: 'Dashboard',           desc: 'Compliance overview across all analyzed documents' },
+      upload:     { title: 'Upload & Analyze',     desc: 'Upload a contract, NDA, or policy for instant analysis' },
+      documents:  { title: 'Documents',            desc: 'All analyzed contracts, policies, and agreements' },
+      findings:   { title: 'Findings',             desc: 'All detected risks and compliance issues' },
+      analytics:  { title: 'Analytics',            desc: 'Compliance metrics and risk distribution' },
+      incidents:  { title: 'Incident Tracking',    desc: 'Track and resolve compliance incidents' },
+      resilience: { title: 'Resilience Scoring',   desc: 'Operational resilience assessment' },
+      continuity: { title: 'Business Continuity',  desc: 'Continuity plans and recovery objectives' },
+      copilot:    { title: 'Copilot',              desc: 'Your virtual compliance officer' },
+    };
+
+    const RISK_COLORS = {
+      critical: 'bg-rose-100 text-rose-800',
+      high:     'bg-orange-100 text-orange-800',
+      medium:   'bg-amber-100 text-amber-800',
+      low:      'bg-blue-100 text-blue-800',
+    };
+
+    function setActive(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.dataset.tab === tab) { b.classList.add('bg-blue-600','text-white'); b.classList.remove('text-slate-300','hover:bg-slate-800'); }
+        else { b.classList.remove('bg-blue-600','text-white'); b.classList.add('text-slate-300','hover:bg-slate-800'); }
+      });
+    }
+
+    async function apiGet(path) {
+      const r = await fetch(API + path);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }
+
+    function riskBadge(level) {
+      const cls = RISK_COLORS[level] || RISK_COLORS.low;
+      return `<span class="px-2 py-1 rounded-full text-xs font-semibold ${cls}">${level || 'low'}</span>`;
+    }
+
+    async function renderTab(tab) {
+      setActive(tab);
+      const meta = TABS[tab] || TABS.dashboard;
+      document.getElementById('pageTitle').textContent = meta.title;
+      document.getElementById('pageDesc').textContent = meta.desc;
+      const c = document.getElementById('content');
+      c.innerHTML = '<div class="text-slate-500">Loading...</div>';
+
+      try {
+        if (tab === 'dashboard')   return renderDashboard(c);
+        if (tab === 'upload')      return renderUpload(c);
+        if (tab === 'documents')   return renderDocuments(c);
+        if (tab === 'findings')    return renderFindings(c);
+        if (tab === 'analytics')   return renderAnalytics(c);
+        if (tab === 'copilot')     return renderCopilot(c);
+        if (tab === 'incidents')   return renderPlaceholder(c, 'Incident Tracking', 'Log security and compliance incidents, assign owners, and track remediation to closure.');
+        if (tab === 'resilience')  return renderPlaceholder(c, 'Resilience Scoring', 'Score operational resilience against ISO 22301 and DORA requirements.');
+        if (tab === 'continuity')  return renderPlaceholder(c, 'Business Continuity', 'Maintain BCP/DR plans with defined RTO and RPO targets.');
+      } catch (e) {
+        c.innerHTML = `<div class="bg-rose-50 border border-rose-200 text-rose-800 rounded-lg p-4">Error: ${e.message}</div>`;
+      }
+    }
+
+    function statCard(label, value, color) {
+      return `<div class="bg-white rounded-xl border border-slate-200 p-5">
+        <div class="text-sm text-slate-500">${label}</div>
+        <div class="text-3xl font-bold mt-2 ${color||'text-slate-900'}">${value}</div></div>`;
+    }
+
+    async function renderDashboard(c) {
+      const contracts = await apiGet('/api/contracts/');
+      const critical = contracts.filter(x => x.highest_risk_level === 'critical').length;
+      const high = contracts.filter(x => x.highest_risk_level === 'high').length;
+      const rows = contracts.slice(0, 6).map(x => `
+        <tr class="border-b border-slate-100 hover:bg-slate-50 cursor-pointer" onclick="viewDoc('${x.contract_id}')">
+          <td class="px-6 py-3 font-medium text-blue-600">${x.file_name}</td>
+          <td class="px-6 py-3 text-slate-600">${x.business_owner}</td>
+          <td class="px-6 py-3">${riskBadge(x.highest_risk_level)}</td>
+          <td class="px-6 py-3 text-slate-500 text-sm">${x.created_at ? new Date(x.created_at).toLocaleDateString() : '—'}</td>
+        </tr>`).join('');
+
+      c.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          ${statCard('Documents Analyzed', contracts.length)}
+          ${statCard('Critical Risks', critical, 'text-rose-600')}
+          ${statCard('High Risks', high, 'text-orange-600')}
+          ${statCard('Coverage', contracts.length ? '100%' : '0%', 'text-emerald-600')}
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <h2 class="font-semibold text-slate-900">Recent Documents</h2>
+            <button onclick="renderTab('upload')" class="text-sm text-blue-600 font-medium hover:text-blue-700">+ Analyze new</button>
+          </div>
+          ${contracts.length === 0
+            ? `<div class="px-6 py-12 text-center"><p class="text-slate-500">No documents analyzed yet.</p>
+                <button onclick="renderTab('upload')" class="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Upload your first contract</button></div>`
+            : `<table class="w-full text-sm"><thead class="text-left text-slate-500 border-b border-slate-100">
+                <tr><th class="px-6 py-3 font-medium">Document</th><th class="px-6 py-3 font-medium">Owner</th><th class="px-6 py-3 font-medium">Risk</th><th class="px-6 py-3 font-medium">Analyzed</th></tr>
+               </thead><tbody>${rows}</tbody></table>`}
+        </div>`;
+    }
+
+    function renderUpload(c) {
+      c.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-5xl">
+          <div class="lg:col-span-2">
+            <form id="uploadForm" class="bg-white rounded-xl border border-slate-200 p-6 space-y-5">
+              <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-xl p-10 text-center cursor-pointer transition hover:border-blue-600 hover:bg-slate-50">
+                <input type="file" id="fileInput" name="document" class="hidden" accept=".pdf,.docx,.txt,.md">
+                <div class="text-4xl mb-3">⬆</div>
+                <p class="font-medium text-slate-900" id="dropText">Click to browse or drag a document</p>
+                <p class="text-sm text-slate-400 mt-1">PDF, DOCX, TXT, MD</p>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Business Owner</label>
+                  <input type="text" name="business_owner" placeholder="e.g. Procurement Team" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 outline-none">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Department</label>
+                  <input type="text" name="department" placeholder="e.g. Legal" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 outline-none">
+                </div>
+              </div>
+              <button type="submit" id="submitBtn" class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">Analyze Document</button>
+              <div id="uploadStatus" class="text-sm"></div>
+            </form>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900">What We Analyze</h3>
+            <ul class="space-y-2 text-sm mt-4 text-slate-700">
+              <li class="flex gap-2"><span class="text-blue-600">✓</span>Liability &amp; risk exposure</li>
+              <li class="flex gap-2"><span class="text-blue-600">✓</span>IP &amp; licensing terms</li>
+              <li class="flex gap-2"><span class="text-blue-600">✓</span>Auto-renewal clauses</li>
+              <li class="flex gap-2"><span class="text-blue-600">✓</span>Data protection (GDPR)</li>
+              <li class="flex gap-2"><span class="text-blue-600">✓</span>Security obligations</li>
+            </ul>
+          </div>
+        </div>`;
+
+      const dz = document.getElementById('dropzone');
+      const fi = document.getElementById('fileInput');
+      const dt = document.getElementById('dropText');
+      dz.onclick = () => fi.click();
+      fi.onchange = () => { if (fi.files.length) dt.textContent = '📎 ' + fi.files[0].name; };
+      ['dragover','dragenter'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('border-blue-600','bg-slate-50'); }));
+      ['dragleave','drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('border-blue-600','bg-slate-50'); }));
+      dz.addEventListener('drop', e => { if (e.dataTransfer.files.length) { fi.files = e.dataTransfer.files; dt.textContent = '📎 ' + e.dataTransfer.files[0].name; } });
+
+      document.getElementById('uploadForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const status = document.getElementById('uploadStatus');
+        const btn = document.getElementById('submitBtn');
+        if (!fi.files.length) { status.innerHTML = '<span class="text-rose-600">Please choose a file.</span>'; return; }
+        btn.disabled = true; btn.textContent = 'Analyzing...';
+        status.innerHTML = '<span class="text-slate-500">Uploading and analyzing...</span>';
+        try {
+          const fd = new FormData(e.target);
+          const r = await fetch(API + '/api/contracts/upload', { method: 'POST', body: fd });
+          const data = await r.json();
+          if (r.ok) { status.innerHTML = '<span class="text-emerald-600">Done! Redirecting...</span>'; setTimeout(() => viewDoc(data.contract_id), 600); }
+          else { status.innerHTML = `<span class="text-rose-600">Error: ${data.detail || 'Upload failed'}</span>`; }
+        } catch (err) {
+          status.innerHTML = `<span class="text-rose-600">Error: ${err.message}</span>`;
+        } finally { btn.disabled = false; btn.textContent = 'Analyze Document'; }
+      };
+    }
+
+    async function renderDocuments(c) {
+      const contracts = await apiGet('/api/contracts/');
+      const rows = contracts.map(x => `
+        <tr class="border-b border-slate-100 hover:bg-slate-50 cursor-pointer" onclick="viewDoc('${x.contract_id}')">
+          <td class="px-6 py-3"><div class="font-medium text-blue-600">${x.file_name}</div>
+            <div class="text-xs text-slate-400">${x.created_at ? new Date(x.created_at).toLocaleString() : '—'}</div></td>
+          <td class="px-6 py-3 text-slate-600">${x.business_owner}</td>
+          <td class="px-6 py-3 text-slate-600">${x.department || '—'}</td>
+          <td class="px-6 py-3">${riskBadge(x.highest_risk_level)}</td>
+          <td class="px-6 py-3 text-right"><span class="text-blue-600 text-xs font-medium">View →</span></td>
+        </tr>`).join('');
+      c.innerHTML = `
+        <div class="bg-white rounded-xl border border-slate-200">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <h2 class="font-semibold text-slate-900">${contracts.length} document${contracts.length === 1 ? '' : 's'}</h2>
+            <button onclick="renderTab('upload')" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700">+ Analyze new</button>
+          </div>
+          ${contracts.length === 0
+            ? '<div class="px-6 py-12 text-center text-slate-500">No documents yet.</div>'
+            : `<table class="w-full text-sm"><thead class="text-left text-slate-500 border-b border-slate-100">
+                <tr><th class="px-6 py-3 font-medium">Document</th><th class="px-6 py-3 font-medium">Owner</th><th class="px-6 py-3 font-medium">Department</th><th class="px-6 py-3 font-medium">Risk</th><th class="px-6 py-3"></th></tr>
+               </thead><tbody>${rows}</tbody></table>`}
+        </div>`;
+    }
+
+    async function renderFindings(c) {
+      const contracts = await apiGet('/api/contracts/');
+      if (!contracts.length) { c.innerHTML = '<div class="bg-white rounded-xl border p-12 text-center text-slate-500">No documents analyzed yet.</div>'; return; }
+      // Aggregate findings across all contracts
+      let allFindings = [];
+      for (const ct of contracts) {
+        try {
+          const f = await apiGet(`/api/contracts/${ct.contract_id}/findings`);
+          f.forEach(x => allFindings.push({ ...x, doc: ct.file_name }));
+        } catch (e) {}
+      }
+      const order = { critical: 0, high: 1, medium: 2, low: 3 };
+      allFindings.sort((a, b) => (order[a.level] ?? 9) - (order[b.level] ?? 9));
+      const rows = allFindings.map(f => `
+        <tr class="border-b border-slate-100">
+          <td class="px-6 py-3">${riskBadge(f.level)}</td>
+          <td class="px-6 py-3 font-medium text-slate-800">${f.clause_reference}</td>
+          <td class="px-6 py-3 text-slate-600">${f.description}</td>
+          <td class="px-6 py-3 text-slate-500 text-xs">${f.doc}</td>
+        </tr>`).join('');
+      c.innerHTML = `
+        <div class="bg-white rounded-xl border border-slate-200">
+          <div class="px-6 py-4 border-b border-slate-200"><h2 class="font-semibold text-slate-900">${allFindings.length} findings across ${contracts.length} documents</h2></div>
+          <table class="w-full text-sm"><thead class="text-left text-slate-500 border-b border-slate-100">
+            <tr><th class="px-6 py-3 font-medium">Severity</th><th class="px-6 py-3 font-medium">Clause</th><th class="px-6 py-3 font-medium">Issue</th><th class="px-6 py-3 font-medium">Document</th></tr>
+          </thead><tbody>${rows}</tbody></table>
+        </div>`;
+    }
+
+    async function renderAnalytics(c) {
+      const contracts = await apiGet('/api/contracts/');
+      const counts = { critical: 0, high: 0, medium: 0, low: 0 };
+      contracts.forEach(x => { counts[x.highest_risk_level] = (counts[x.highest_risk_level] || 0) + 1; });
+      const total = contracts.length || 1;
+      const bar = (label, n, color) => `
+        <div class="mb-3">
+          <div class="flex justify-between text-sm mb-1"><span class="capitalize text-slate-700">${label}</span><span class="text-slate-500">${n}</span></div>
+          <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full ${color}" style="width:${(n/total*100).toFixed(0)}%"></div></div>
+        </div>`;
+      c.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl">
+          <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900 mb-4">Risk Distribution</h3>
+            ${bar('Critical', counts.critical, 'bg-rose-500')}
+            ${bar('High', counts.high, 'bg-orange-500')}
+            ${bar('Medium', counts.medium, 'bg-amber-500')}
+            ${bar('Low', counts.low, 'bg-blue-500')}
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900 mb-4">Summary</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between"><span class="text-slate-600">Total documents</span><span class="font-semibold">${contracts.length}</span></div>
+              <div class="flex justify-between"><span class="text-slate-600">Critical exposure</span><span class="font-semibold text-rose-600">${counts.critical}</span></div>
+              <div class="flex justify-between"><span class="text-slate-600">Requires review</span><span class="font-semibold text-orange-600">${counts.critical + counts.high}</span></div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderPlaceholder(c, title, desc) {
+      c.innerHTML = `
+        <div class="bg-white rounded-xl border border-slate-200 p-12 text-center max-w-2xl">
+          <div class="text-4xl mb-4">🛡️</div>
+          <h3 class="text-lg font-semibold text-slate-900">${title}</h3>
+          <p class="text-slate-500 mt-2">${desc}</p>
+          <p class="text-xs text-slate-400 mt-4">Module scaffolded — coming in the next iteration.</p>
+        </div>`;
+    }
+
+    let convId = null;
+    async function renderCopilot(c) {
+      c.innerHTML = `
+        <div class="max-w-3xl">
+          <div class="bg-white rounded-xl border border-slate-200 flex flex-col" style="height:70vh">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center gap-2">
+              <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">CG</div>
+              <div><div class="font-semibold text-slate-900 text-sm">Compliance Copilot</div><div class="text-xs text-slate-400">Your virtual compliance officer</div></div>
+            </div>
+            <div id="chatBox" class="flex-1 overflow-y-auto p-6 space-y-4">
+              <div class="flex gap-3">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0">CG</div>
+                <div class="bg-slate-100 rounded-lg px-4 py-2 text-sm text-slate-700">Hi! Ask me about your contracts, risks, or compliance obligations.</div>
+              </div>
+            </div>
+            <form id="chatForm" class="border-t border-slate-200 p-4 flex gap-2">
+              <input id="chatInput" type="text" placeholder="e.g. What are my critical risks?" class="flex-1 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-blue-600 outline-none">
+              <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Send</button>
+            </form>
+          </div>
+        </div>`;
+
+      const box = document.getElementById('chatBox');
+      const addMsg = (who, text) => {
+        const isUser = who === 'user';
+        box.innerHTML += `
+          <div class="flex gap-3 ${isUser ? 'flex-row-reverse' : ''}">
+            <div class="w-8 h-8 ${isUser ? 'bg-slate-700' : 'bg-blue-600'} rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0">${isUser ? 'You' : 'CG'}</div>
+            <div class="${isUser ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'} rounded-lg px-4 py-2 text-sm max-w-md">${text}</div>
+          </div>`;
+        box.scrollTop = box.scrollHeight;
+      };
+
+      document.getElementById('chatForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('chatInput');
+        const msg = input.value.trim();
+        if (!msg) return;
+        addMsg('user', msg);
+        input.value = '';
+        try {
+          if (!convId) {
+            const conv = await (await fetch(API + '/api/conversations/', { method: 'POST' })).json();
+            convId = conv.conversation_id;
+          }
+          const r = await fetch(API + `/api/conversations/${convId}/messages`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: msg }),
+          });
+          const data = await r.json();
+          addMsg('assistant', data.content || '(no response)');
+        } catch (err) {
+          addMsg('assistant', 'Error: ' + err.message);
+        }
+      };
+    }
+
+    async function viewDoc(id) {
+      setActive('documents');
+      document.getElementById('pageTitle').textContent = 'Document Detail';
+      document.getElementById('pageDesc').textContent = 'Risk analysis and findings';
+      const c = document.getElementById('content');
+      c.innerHTML = '<div class="text-slate-500">Loading...</div>';
+      try {
+        const doc = await apiGet(`/api/contracts/${id}`);
+        const findings = await apiGet(`/api/contracts/${id}/findings`);
+        const fRows = findings.map(f => `
+          <div class="border border-slate-200 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-medium text-slate-800">${f.clause_reference}</span>${riskBadge(f.level)}
+            </div>
+            <p class="text-sm text-slate-600">${f.description}</p>
+            <p class="text-sm text-blue-700 mt-2">→ ${f.recommendation}</p>
+            ${f.evidence ? `<p class="text-xs text-slate-400 mt-2 italic">"${f.evidence}"</p>` : ''}
+          </div>`).join('');
+        c.innerHTML = `
+          <button onclick="renderTab('documents')" class="text-sm text-blue-600 mb-4">← Back to documents</button>
+          <div class="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-slate-900">${doc.file_name}</h2>
+                <p class="text-sm text-slate-500 mt-1">Owner: ${doc.business_owner} · ${doc.department || '—'}</p>
+              </div>
+              ${riskBadge(doc.highest_risk_level)}
+            </div>
+            <p class="text-sm text-slate-700 mt-4 bg-slate-50 rounded-lg p-3">${doc.summary || ''}</p>
+          </div>
+          <h3 class="font-semibold text-slate-900 mb-3">${findings.length} Risk Findings</h3>
+          <div class="space-y-3">${fRows || '<p class="text-slate-500">No risks detected.</p>'}</div>`;
+      } catch (e) {
+        c.innerHTML = `<div class="bg-rose-50 border border-rose-200 text-rose-800 rounded-lg p-4">Error: ${e.message}</div>`;
+      }
+    }
+
+    // Wire up nav
+    document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => renderTab(b.dataset.tab)));
+
+    // Health check
+    fetch(API + '/health').then(r => r.ok ? null : Promise.reject()).catch(() => {
+      document.getElementById('apiStatus').textContent = 'API offline';
+    });
+
+    renderTab('dashboard');
+  </script>
+</body>
+</html>

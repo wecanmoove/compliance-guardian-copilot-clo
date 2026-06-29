@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="bg-white rounded-xl border border-slate-200 p-6">
+    <h2 class="font-semibold text-slate-900 mb-4">Recent Contracts</h2>
+    {% if contracts %}
+      {% for d in contracts[:5] %}
+      <div class="flex items-center justify-between py-2 border-b border-slate-100">
+        <div><a href="/contracts/{{ d.contract_id }}" class="text-blue-600 font-medium">{{ d.file_name }}</a></div>
+        <span class="text-xs px-2 py-1 rounded-full
+          {% if d.highest_risk_level == 'critical' %}bg-rose-100 text-rose-800
+          {% elif d.highest_risk_level == 'high' %}bg-orange-100 text-orange-800
+          {% else %}bg-blue-100 text-blue-800{% endif %}">{{ d.highest_risk_level }}</span>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-slate-500">No contracts uploaded yet. <a href="/upload" class="text-blue-600">Upload now.</a></p>
+    {% endif %}
+  </div>
+  <div class="bg-white rounded-xl border border-slate-200 p-6">
+    <h2 class="font-semibold text-slate-900 mb-4">Statistics</h2>
+    <div class="space-y-2 text-sm">
+      <div class="flex justify-between"><span class="text-slate-600">Total documents:</span><span class="font-semibold">{{ contract_count }}</span></div>
+      <div class="flex justify-between"><span class="text-slate-600">Critical risks:</span><span class="font-semibold text-rose-600">{{ critical_count }}</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
