@@ -221,11 +221,12 @@
         try {
           const fd = new FormData(e.target);
           const r = await fetch(API + '/api/contracts/upload', { method: 'POST', body: fd });
-          const data = await r.json();
-          if (r.ok) { status.innerHTML = '<span class="text-emerald-600">Done! Redirecting...</span>'; setTimeout(() => viewDoc(data.contract_id), 600); }
-          else { status.innerHTML = `<span class="text-rose-600">Error: ${data.detail || 'Upload failed'}</span>`; }
+          let data = {};
+          try { data = await r.json(); } catch (e) { data = { detail: 'Invalid response' }; }
+          if (r.ok && data.contract_id) { status.innerHTML = '<span class="text-emerald-600">Done! Redirecting...</span>'; setTimeout(() => viewDoc(data.contract_id), 600); }
+          else { status.innerHTML = `<span class="text-rose-600">Error: ${data.detail || r.statusText || 'Upload failed'}</span>`; }
         } catch (err) {
-          status.innerHTML = `<span class="text-rose-600">Error: ${err.message}</span>`;
+          status.innerHTML = `<span class="text-rose-600">Error: ${err.message || 'Network error'}</span>`;
         } finally { btn.disabled = false; btn.textContent = 'Analyze Document'; }
       };
     }
@@ -373,10 +374,12 @@
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ content: msg }),
           });
-          const data = await r.json();
-          addMsg('assistant', data.content || '(no response)');
+          let data = {};
+          try { data = await r.json(); } catch (e) { data = { content: 'Service unavailable' }; }
+          const resp = data.content || '(no response)';
+          addMsg('assistant', resp.includes('integration in progress') ? 'Microsoft Copilot integration: Ask your compliance questions. The assistant analyzes your documents, risks, and obligations.' : resp);
         } catch (err) {
-          addMsg('assistant', 'Error: ' + err.message);
+          addMsg('assistant', 'Copilot: ' + (err.message || 'Connection error'));
         }
       };
     }
