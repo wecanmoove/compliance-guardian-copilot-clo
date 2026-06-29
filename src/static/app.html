@@ -65,7 +65,11 @@
   </div>
 
   <script>
-    const API = '';  // same origin
+    // Use the page's own origin when served over http(s); otherwise (e.g. rendered
+    // in a sandboxed preview panel with no origin) fall back to the local server.
+    const API = (location.protocol === 'http:' || location.protocol === 'https:')
+      ? location.origin
+      : 'http://127.0.0.1:8000';
     const TABS = {
       dashboard:  { title: 'Dashboard',           desc: 'Compliance overview across all analyzed documents' },
       upload:     { title: 'Upload & Analyze',     desc: 'Upload a contract, NDA, or policy for instant analysis' },
