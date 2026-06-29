@@ -1,9 +1,8 @@
-from sqlalchemy import Column, String, Text, DateTime, Integer
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, String, Text, DateTime, Integer, ForeignKey
+from .base import Base
 from datetime import datetime
 from pydantic import BaseModel
 
-Base = declarative_base()
 
 
 class ConversationEntity(Base):

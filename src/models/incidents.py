@@ -1,15 +1,15 @@
+import uuid
 from sqlalchemy import Column, String, Text, DateTime, Integer
-from sqlalchemy.orm import declarative_base
+from .base import Base
 from datetime import datetime
 from pydantic import BaseModel
 
-Base = declarative_base()
 
 
 class IncidentEntity(Base):
     __tablename__ = "incidents"
     
-    incident_id = Column(String(36), primary_key=True)
+    incident_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     title = Column(String(255))
     description = Column(Text)
     severity = Column(String(16))

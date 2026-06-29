@@ -27,10 +27,10 @@ async def upload_contract(
         if not is_allowed(file.filename):
             raise HTTPException(status_code=400, detail="Unsupported file type")
 
-        os.makedirs(settings.STORAGE_PATH, exist_ok=True)
+        os.makedirs(settings.storage_path, exist_ok=True)
         file_id = str(uuid.uuid4())
         file_extension = os.path.splitext(file.filename)[1]
-        file_path = os.path.join(settings.STORAGE_PATH, f"{file_id}{file_extension}")
+        file_path = os.path.join(settings.storage_path, f"{file_id}{file_extension}")
 
         contents = await file.read()
         with open(file_path, "wb") as f:

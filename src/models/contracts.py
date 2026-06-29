@@ -1,10 +1,10 @@
+import uuid
 from sqlalchemy import Column, String, Integer, Text, DateTime, Enum
-from sqlalchemy.orm import declarative_base
+from .base import Base
 from datetime import datetime
 from pydantic import BaseModel
 from enum import Enum as PyEnum
 
-Base = declarative_base()
 
 
 class RiskLevel(str, PyEnum):
@@ -17,7 +17,7 @@ class RiskLevel(str, PyEnum):
 class ContractEntity(Base):
     __tablename__ = "contracts"
     
-    contract_id = Column(String(36), primary_key=True)
+    contract_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     file_name = Column(String(255), nullable=False)
     business_owner = Column(String(255))
     department = Column(String(255))

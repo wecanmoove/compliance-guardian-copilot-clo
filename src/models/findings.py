@@ -1,15 +1,15 @@
+import uuid
 from sqlalchemy import Column, String, Integer, Text, DateTime, ForeignKey
-from sqlalchemy.orm import declarative_base
+from .base import Base
 from datetime import datetime
 from pydantic import BaseModel
 
-Base = declarative_base()
 
 
 class RiskFindingEntity(Base):
     __tablename__ = "findings"
     
-    finding_id = Column(String(36), primary_key=True)
+    finding_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     contract_id = Column(String(36), ForeignKey("contracts.contract_id"))
     clause_reference = Column(String(255))
     description = Column(Text)
