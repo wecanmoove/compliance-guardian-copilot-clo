@@ -23,7 +23,6 @@ async def upload_contract(
     db: Session = Depends(get_db)
 ):
     """Upload contract for analysis with auto risk assessment"""
-    print(f"DEBUG: owner={business_owner}, dept={department}")
     try:
         if not is_allowed(file.filename):
             raise HTTPException(status_code=400, detail="Unsupported file type")

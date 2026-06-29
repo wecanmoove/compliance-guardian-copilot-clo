@@ -6,6 +6,7 @@ import uuid
 
 from ..db import get_db
 from ..models.conversations import ConversationEntity, MessageEntity
+from ..services.copilot import generate_reply
 
 router = APIRouter(prefix="/api/conversations", tags=["conversations"])
 
@@ -55,19 +56,30 @@ async def send_message(conversation_id: str, message: dict, db: Session = Depend
     if not conv:
         raise HTTPException(status_code=404, detail="Conversation not found")
     
+    content = message.get("content", "")
+
+    # Load prior history (chronological) before saving the new message.
+    history = [
+        {"role": m.role, "content": m.content}
+        for m in db.query(MessageEntity)
+        .filter(MessageEntity.conversation_id == conversation_id)
+        .order_by(MessageEntity.created_at.asc())
+        .all()
+    ]
+
     # Save user message
     user_msg = MessageEntity(
         message_id=str(uuid.uuid4()),
         conversation_id=conversation_id,
         role="user",
-        content=message.get("content", "")
+        content=content
     )
     db.add(user_msg)
     db.commit()
-    
-    # Generate bot response (simplified - just echo back)
-    bot_response = f"Received: {message.get('content', '')}. (Copilot integration in progress)"
-    
+
+    # Generate the assistant reply via Claude, grounded in the user's data.
+    bot_response = generate_reply(db, history, content)
+
     bot_msg = MessageEntity(
         message_id=str(uuid.uuid4()),
         conversation_id=conversation_id,
