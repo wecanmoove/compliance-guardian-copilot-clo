@@ -10,42 +10,28 @@ alembic==1.13.0
 psycopg2-binary==2.9.9
 
 # IA & LangGraph
-langgraph==0.0.27
+langgraph==0.1.0
 langchain==0.1.0
 langchain-openai==0.0.5
 langchain-community==0.0.13
 pydantic==2.5.0
+pydantic-settings==2.1.0
 
 # Vector DB & Embeddings
 pgvector==0.2.5
 sentence-transformers==2.2.2
 
-# Async & Tasks
-celery==5.3.4
-redis==5.0.1
-
 # Document processing
-pydantic-extra-types==2.3.0
-pypdf==3.17.1
+PyPDF2==3.0.1
 python-docx==0.8.11
 openpyxl==3.1.2
 aiofiles==23.2.1
-
-# Logging & Monitoring
-python-json-logger==2.0.7
-structlog==23.2.0
-
-# Auth
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-pydantic-settings==2.1.0
-
-# Testing
-pytest==7.4.3
-pytest-asyncio==0.21.1
-httpx==0.25.2
 
 # Utils
 tenacity==8.2.3
 httpx==0.25.2
 uuid6==1.0.3
+
+# Testing (optional)
+pytest==7.4.3
+pytest-asyncio==0.21.1
